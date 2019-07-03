@@ -6,7 +6,7 @@
 typedef int Item;
 typedef struct List *SqList;
 
-void InitList(SqList L);
+SqList InitList(void);
 int ListLength(SqList L);
 Item GetNode(SqList L, int i);
 int LocateNode(SqList L, Item x);
