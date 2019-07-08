@@ -85,3 +85,16 @@ bool deleteList(SqList L, int i)
 
     return true;
 }
+
+void converts(SqList L)
+{
+    int i, j, len, temp;
+        
+    len = ListLength(L);
+    
+    for (i = 0, j = len - 1; i < len / 2; i++, j--) {
+        temp = L->data[i];
+        L->data[i] = L->data[j];
+        L->data[j] = temp;
+    }
+}

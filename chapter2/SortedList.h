@@ -12,5 +12,6 @@ Item GetNode(SqList L, int i);
 int LocateNode(SqList L, Item x);
 bool InsertList(SqList L, int i, Item x); 
 bool deleteList(SqList L, int i);
+void converts(SqList L);
 
 #endif

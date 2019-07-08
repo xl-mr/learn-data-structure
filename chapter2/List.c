@@ -19,6 +19,12 @@ int main(void)
     }
     printf("\n");
 
+    printf("converts\n");
+    for (i = 0; i < ListLength(L); i++) {
+        printf("%d ", GetNode(L, i + 1));
+    }
+    printf("\n");
+
     free(L);
 
     return 0;
