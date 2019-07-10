@@ -4,13 +4,15 @@
 #include <stdbool.h>
 
 typedef int Item;
-typedef struct LinkList *SqList;
+typedef struct LinkList_node *LinkList;
 
-SqList InitList(void);
-int ListLength(SqList L);
-Item GetNode(SqList L, int i);
-int LocateNode(SqList L, Item x);
-bool InsertList(SqList L, int i, Item x); 
-bool deleteList(SqList L, int i);
+LinkList InitList(void);
+int ListLength(LinkList L);
+bool GetNode(LinkList L, int i, Item *e);
+int LocateNode(LinkList L, Item x);
+bool InsertList(LinkList L, int i, Item e); 
+bool deleteList(LinkList L, int i, Item *e);
+void createListHead(LinkList L, int n);
+void createListTail(LinkList L, int n);
 
 #endif
