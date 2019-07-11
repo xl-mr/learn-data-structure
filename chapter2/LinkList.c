@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "LinkList.h"
@@ -36,10 +37,6 @@ int ListLength(LinkList L) {
 bool GetNode(LinkList L, int i, Item *e) {
     struct node *p = L->head;
 
-    if (i < 1 || i > ListLength(L)) {
-        return false;
-    }
-
     while (i-- > 1 && p != NULL) {
         p = p->next;
     }
@@ -70,9 +67,6 @@ int LocateNode(LinkList L, Item x)
 bool InsertList(LinkList L, int i, Item e) {
     int j;
     struct node *p = L->head, *head = p;
-    if (i < 1 || i > ListLength(L)) {
-        return false;
-    }
 
     i--;
     j = 1;
@@ -80,7 +74,7 @@ bool InsertList(LinkList L, int i, Item e) {
         p = p->next;
         j++;
     }
-    if (p == NULL) {
+    if (p == NULL || j > i) {
         return false;
     }
     struct node *new_node = malloc(sizeof(struct node));
@@ -97,13 +91,68 @@ bool InsertList(LinkList L, int i, Item e) {
 }
 
 bool deleteList(LinkList L, int i, Item *e) {
+    int j;
+    struct node *p = L->head, *temp;
+    i--;
+    j = 1;
+    while (p != NULL && i > j) {
+        p = p->next;
+        j++;
+    }
+    if (p == NULL) {
+        return false;
+    }
 
+    temp = p->next;
+    p->next = temp->next;
+    *e = temp->data;
+    free(temp);
+
+    return true;
 }
-void createListHead(LinkList L, int n) {
 
+void createListHead(LinkList L, int n) {
+    int i;
+    struct node *p = L->head, *new_node;   
+
+    for (i = 0; i < n; i++) {
+        new_node = malloc(sizeof(struct node));
+        if (new_node == NULL) {
+            fprintf(stderr, "Memory not enough.\n");
+            exit(0);
+        }
+        new_node->data = i;
+
+        new_node->next = p;
+        p = new_node;
+    }
+    L->head = new_node;
 }
 
 void createListTail(LinkList L, int n) {
+    int i;
+    struct node *p, *head, *new_node;   
 
+    p = malloc(sizeof(struct node));
+    if (p == NULL) {
+        fprintf(stderr, "not enough for memory.\n");
+        exit(0);
+    }
+    p->data = 0;
+    head = p;
+    
+    for (i = 1; i < n; i++) {
+        //printf("%d ", i);
+        new_node = malloc(sizeof(struct node));
+        if (new_node == NULL) {
+            fprintf(stderr, "not enough for memory.\n");
+            exit(0);
+        }
+        new_node->data = i;
+        
+        p->next = new_node;
+        p = new_node;
+    }
+    L->head = head;
 }
 
