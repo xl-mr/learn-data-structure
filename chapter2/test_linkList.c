@@ -29,8 +29,12 @@ int main(void)
     **/
 
     for (i = 1; i < 10; i++) {
-        printf("%d ", InsertList(L, i, i));
+        InsertList(L, i, i);
     }
+
+    deleteList(L, 3, &e);
+    deleteList(L, 5, &e);
+    deleteList(L, 7, &e);
     
     len = ListLength(L);
     printf("len = %d\n", len);
@@ -45,6 +49,8 @@ int main(void)
     }   
 
     printf("\n");
+
+    clearList(L);
 
     return 0;
 }

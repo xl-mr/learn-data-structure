@@ -10,7 +10,7 @@ struct node {
 
 struct LinkList_node {
     struct node *head;
-    //int length;
+    int length;
 };
 
 LinkList InitList(void) {
@@ -19,11 +19,13 @@ LinkList InitList(void) {
         return NULL;
     }
     L->head = NULL;
+    L->length = 0;
 
     return L;
 }
 
 int ListLength(LinkList L) {
+    /**
     int i = 0;
     struct node *p = L->head;
     while (p != NULL) {
@@ -32,6 +34,8 @@ int ListLength(LinkList L) {
     }
 
     return i;
+    **/
+    return L->length;
 }
 
 bool GetNode(LinkList L, int i, Item *e) {
@@ -66,36 +70,43 @@ int LocateNode(LinkList L, Item x)
 
 bool InsertList(LinkList L, int i, Item e) {
     int j;
-    struct node *p = L->head, *head = p;
+    struct node *p = L->head, *new_node = NULL;
 
-    i--;
     j = 1;
-    while (p != NULL && i > j) {
+    while (p != NULL && (i - 1) > j) {
         p = p->next;
         j++;
     }
-    if (p == NULL || j > i) {
+    if (j > i || i < 1) {
         return false;
     }
-    struct node *new_node = malloc(sizeof(struct node));
+    new_node = calloc(1, sizeof(struct node));
+    if (new_node == NULL) {
+        return false;
+    }
     new_node->data = e;
 
-    if (head == p) {
-        new_node->next = p;
+    if (L->head == NULL) {
         L->head = new_node;
     } else {
+        new_node->next = p->next;
         p->next = new_node;
     }
+    L->length++;
 
     return true;
 }
 
 bool deleteList(LinkList L, int i, Item *e) {
     int j;
-    struct node *p = L->head, *temp;
-    i--;
+    struct node *p = L->head, *q;
+    
+    if (i < 1 || ListLength(L) == 0) {
+        return false;
+    }
+
     j = 1;
-    while (p != NULL && i > j) {
+    while (p != NULL && (i - 1) > j) {
         p = p->next;
         j++;
     }
@@ -103,10 +114,11 @@ bool deleteList(LinkList L, int i, Item *e) {
         return false;
     }
 
-    temp = p->next;
-    p->next = temp->next;
-    *e = temp->data;
-    free(temp);
+    q = p->next;
+    p->next = q->next;
+    *e = q->data;
+    free(q);
+    L->length--;
 
     return true;
 }
@@ -125,6 +137,7 @@ void createListHead(LinkList L, int n) {
 
         new_node->next = p;
         p = new_node;
+        L->length++;
     }
     L->head = new_node;
 }
@@ -152,7 +165,22 @@ void createListTail(LinkList L, int n) {
         
         p->next = new_node;
         p = new_node;
+        L->length++;
     }
     L->head = head;
 }
 
+void clearList(LinkList L)
+{
+    struct node *p, *q = NULL;
+    p = L->head;
+    
+    while (p != NULL && L->length > 0)  { 
+        q = p;
+        p = p->next;
+        free(q);
+        L->length--;
+    }
+    L->head = NULL;
+    free(L);
+}

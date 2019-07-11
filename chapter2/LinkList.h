@@ -14,5 +14,6 @@ bool InsertList(LinkList L, int i, Item e);
 bool deleteList(LinkList L, int i, Item *e);
 void createListHead(LinkList L, int n);
 void createListTail(LinkList L, int n);
+void clearList(LinkList L);
 
 #endif
