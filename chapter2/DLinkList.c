@@ -1,20 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "LinkList.h"
+#include "DLinkList.h"
 
 struct node {
     Item data;
     struct node *next;
+    struct node *prev;
 };
 
-struct LinkList_node {
+struct DLinkList_node {
     struct node *head;
     int length;
 };
 
 LinkList InitList(void) {
-    LinkList L = malloc(sizeof(struct LinkList_node));   
+    LinkList L = (struct DLinkList_node *)malloc(sizeof(struct DLinkList_node));   
     if (L == NULL) {
         return NULL;
     }
@@ -88,8 +89,12 @@ bool InsertList(LinkList L, int i, Item e) {
 
     if (L->head == NULL) {
         L->head = new_node;
+        L->head->next = NULL;
+        L->head->prev = NULL;
     } else {
+        new_node->prev = p;
         new_node->next = p->next;
+        p->next->prev = new_node;
         p->next = new_node;
     }
     L->length++;
@@ -115,7 +120,10 @@ bool deleteList(LinkList L, int i, Item *e) {
     }
 
     q = p->next;
-    p->next = q->next;
+
+    q->prev->next = q->next;
+    q->next->prev = q->prev;
+
     *e = q->data;
     free(q);
     L->length--;
