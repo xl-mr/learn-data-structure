@@ -10,7 +10,8 @@ int main(void)
     LinkList L;
 
     L = InitList();
-    /**createListTail(L, 10);
+
+    createListTail(L, 10);
     //createListHead(L, 10);
 
     len = ListLength(L);
@@ -26,7 +27,6 @@ int main(void)
     }
 
     printf("\n");
-    **/
 
     for (i = 1; i < 10; i++) {
         InsertList(L, i, i);

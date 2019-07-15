@@ -152,11 +152,12 @@ void createListTail(LinkList L, int n) {
         exit(0);
     }
     p->data = 0;
+    L->length++;
     head = p;
     
     for (i = 1; i < n; i++) {
         //printf("%d ", i);
-        new_node = malloc(sizeof(struct node));
+        new_node = calloc(1, sizeof(struct node));
         if (new_node == NULL) {
             fprintf(stderr, "not enough for memory.\n");
             exit(0);
