@@ -94,7 +94,9 @@ bool InsertList(LinkList L, int i, Item e) {
     } else {
         new_node->prev = p;
         new_node->next = p->next;
-        p->next->prev = new_node;
+        if (p->next != NULL) {
+            p->next->prev = new_node;
+        }
         p->next = new_node;
     }
     L->length++;
